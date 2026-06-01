@@ -4,7 +4,7 @@ import json
 import os 
 
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -37,20 +37,50 @@ async def search(
             timeout=10,
         )
     response.raise_for_status()
-    parsed = BraveSearchResponse.model_validate(response.json())
-    return parsed.web.results
-    
-async def main() -> None:
-    async with httpx.AsyncClient() as client:
-        results = await search(client, "FastAPI tutorial")
 
+    try:
+        parsed = BraveSearchResponse.model_validate(response.json())
+    except ValidationError as e:
+        raise ValidationError(f"Unexpected API response shape: {e}") from e
+
+    return parsed.web.results
+
+def print_results(results: list[SearchResult]) -> None:
     for i, result in enumerate(results, 1):
         print(f"[{i}] {result.title}")
-        print(f"   {result.url}")
+        print(f"    URL: {result.url}")
         if result.description:
-            print(f"    {result.description[:120]}")
+            print(f"    {result.description[:140]}")
         print()
 
 
-asyncio.run(main())
+
+async def main() -> None:
+    api_key = os.environ["BRAVE_API_KEY"]
+    if not api_key:
+        raise ValueError("BRAVE_API_KEY not set. Add it to your .env")
+    
+    query = "what is FastApi"
+
+    try:
+        async with httpx.AsyncClient() as client:
+            results = await search(client, query)
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 401:
+            print("Error: Invalid API key. Check your BRAVE_API_KEY in .env")
+        elif e.response.status_code == 429:
+            print("Error: Rate limit exceeded. Wait a moment and retry.")
+        else:
+            print(f"HTTP error {e.response.status_code}: {e}")
+        return
+    except httpx.ConnectTimeout:
+        print("Error: Request timed out.")
+        return
+    
+    print_results(results)
+   
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
 
