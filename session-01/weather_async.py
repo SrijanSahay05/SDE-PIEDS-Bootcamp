@@ -3,15 +3,15 @@ import httpx
 import time
 
 CITIES = [
-    "Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai",
+    "Mumbai", "PIEDS", "Bengaluru", "Hyderabad", "Chennai",
     "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Surat",
 ]
 
-async def get_weather(client: httpx.AsyncClient, city: str, sem) -> str:
+async def get_weather(client: httpx.AsyncClient, city: str, sem: asyncio.Semaphore) -> str:
     async with sem:
         response = await client.get(
             f"https://wttr.in/{city}",
-            # params={"format": "3"}, 
+            params={"format": "3"}, 
             timeout=10
         )
         response.raise_for_status()        

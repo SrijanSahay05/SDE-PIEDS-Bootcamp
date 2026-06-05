@@ -8,8 +8,31 @@
 # `-> str` documents what the function returns.
 # Type hints are NOT enforced at runtime; they help editors and readers.
 
-# def greet(name: str) -> str:
-#     return f"Hello, {name}"
+def hello():
+    print("Hello")
+    return
+
+def greet(name: str, age: int) -> str:
+    if age < 0:
+        print("Age can not be less than zero.")
+    elif age < 18:
+        print(f"Hello, {name}. Your age is {age}, you are not allowed to vote this year.")
+    else:
+        print(f"Hello, {name}. Your age is {age}, you are  allowed to vote this year.")
+
+
+
+# name = input("Please enter your name: ")
+# age = int(input("Please enter your age: "))
+
+# type_name = type(name)
+# type_age = type(age)
+
+# print(f"Data type of name: {type_name}")
+# print(f"Data type of age: {type_age}")
+
+# res = greet(name, age) 
+# print(res)
 
 # res = greet("rahul")
 # print(res)   # Hello, rahul
@@ -48,8 +71,41 @@
 # Strings in Python have built-in methods.
 # Methods can be chained — each call returns a new string.
 
-city = "   Mumbai   "
-print(city)              # '   Mumbai   '  — raw value with spaces
-print(city.strip())      # 'Mumbai'        — removes leading/trailing whitespace
-print(city.lower())      # '   mumbai   '  — lowercase (spaces preserved)
-print(city.strip().upper())  # 'MUMBAI'   — chain: strip first, then uppercase
+# city = "   Mumbai   "
+# print(city)              # '   Mumbai   '  — raw value with spaces
+# print(city.strip())      # 'Mumbai'        — removes leading/trailing whitespace
+# print(city.lower())      # '   mumbai   '  — lowercase (spaces preserved)
+# print(city.upper())
+# print(city.strip().lower())
+
+# print(city.strip().upper())  # 'MUMBAI'   — chain: strip first, then uppercase
+
+# city = city.strip()
+# city = city.lower()
+
+# for i in range(1,101,2):
+#     print(i)
+
+# CITIES = [
+#     "Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai",
+#     "Kolkata", "Pune", "Ahmedabad", "Jaipur", "Surat",
+# ]
+
+# for i in range(10):
+#     print(CITIES[i])
+
+# for city in CITIES.items():
+#     print(city)
+
+# for index, city in enumerate(CITIES):
+#     print(f"{index}: {city}")
+
+
+count = 0
+while count < 3:
+    print(count)
+    count += 1 # count = count + 1 
+# 0
+# 1
+# 2
+
