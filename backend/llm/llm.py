@@ -2,10 +2,10 @@ import os
 from typing import Optional
 
 from openai import AsyncOpenAI
-from brave.brave import SearchResult
+from websearch.brave import SearchResult
 
 OPENROUTER_BASE_URL="https://openrouter.ai/api/v1"
-DEFAULT_MODEL = "openai/gpt-oss-120b"
+DEFAULT_MODEL = "deepseek/deepseek-v4-pro"
 
 SYSTEM_PROMPT = """You are a helpful research assistant. Answer the user's question \
 using only the search results provided below. Be concise and factual. \
@@ -30,8 +30,8 @@ async def ask(
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ],
-        max_tokens=1024,
-        temperature=0.3,
+        # max_tokens=1024,
+        temperature=0.8,
     )
 
     return completion.choices[0].message.content or ""
