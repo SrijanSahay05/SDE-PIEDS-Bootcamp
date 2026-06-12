@@ -3,12 +3,13 @@ from pydantic import BaseModel, Field
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from openai import AsyncOpenAI, APIStatusError, APITimeoutError
-
+from tavily import AsyncTavilyClient
 import httpx
 import os 
 from dotenv import load_dotenv
 
-from websearch.brave import search
+# from websearch.brave import search
+from websearch.tavily_search import search 
 from llm import llm
 
 load_dotenv()
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
         api_key=os.environ.get("OPENROUTER_API_KEY", ""),
         base_url=OPENROUTER_BASE_URL,
     )
+    app.state.tavily_client = AsyncTavilyClient(api_key=os.environ.get("TAVILY_API_KEY", ""))
     yield
     await app.state.http_client.aclose()
     await app.state.llm_client.close()
@@ -79,7 +81,7 @@ async def health_check():
 
 @app.post("/search", response_model=SearchResponse, tags=["Search"])
 async def search_endpoint(request: SearchRequest):
-    client: httpx.AsyncClient = app.state.http_client
+    client: httpx.AsyncClient = app.state.tavily_client
 
     try:
         raw_results = await search(client, request.query, request.count)
@@ -108,11 +110,12 @@ async def ask_endpoint(request: AskRequest):
     # Step 4: Return text + structured citations list
 
     http_client: httpx.AsyncClient = app.state.http_client
+    tavily_client: AsyncTavilyClient = app.state.tavily_client
     llm_client: AsyncOpenAI = app.state.llm_client
 
     # Step 1:
     try:
-        results = await search(http_client, request.question, request.count)
+        results = await search(tavily_client, request.question, request.count)
     except ValueError as e:
         raise HTTPException(status_code=500, detail=str(e))
     except httpx.HTTPStatusError as e:

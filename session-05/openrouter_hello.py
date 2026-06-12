@@ -6,8 +6,8 @@ from openai import AsyncOpenAI
 
 load_dotenv()
 
-OPENROUTER_BASE_URL="https://openrouter.ai/api/v1",
-MODEL = "openai/gpt-oss-120b"
+# OPENROUTER_BASE_URL="https://openrouter.ai/api/v1",
+MODEL = "google/gemma-4-31b-it"
 
 async def main():
     client = AsyncOpenAI(
