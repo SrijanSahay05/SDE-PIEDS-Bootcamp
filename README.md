@@ -101,7 +101,7 @@ FastAPI Backend
 | 04 | Thu, Jun 5 | FastAPI backend — project setup | `/search` endpoint with Swagger docs and CORS |
 | 05 | Fri, Jun 6 | LLM integration via OpenRouter | `/ask` endpoint with system prompts and cited answers |
 | 06 | Thu, Jun 12 | Supabase + Auth (OAuth + JWT) | Google Sign-In, JWT verification via `Depends()` |
-| 07 | Fri, Jun 13 | Database + pgvector | Chat history table, embeddings, semantic cache |
+| 07 | Fri, Jun 13 | Docker, Postgres, Auth | Docker compose DB setup, DB schemas (Excel analogy), ORMs, Auth concepts |
 | 08 | Mon, Jun 16 | TypeScript + Next.js frontend | Search UI with Google login and chat history sidebar |
 | 09 | Tue, Jun 17 | Streaming responses + UI | Real-time SSE rendering with `react-markdown` |
 | 10 | Thu, Jun 19 | Docker — containerising the app | `docker compose up --build` runs the full stack |

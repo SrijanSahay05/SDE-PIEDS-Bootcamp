@@ -253,10 +253,10 @@ Without this, browsers block cross-origin requests by default. CORS is a browser
 
 ## What's Coming Next
 
-Session 7 adds authentication and a database:
+Session 7 focuses on Docker, Databases, and Authentication:
 
-- **Auth**: Google Sign-In via Supabase OAuth. The backend verifies the JWT on every protected request. Anonymous `/ask` calls will return `401`.
-- **Database**: Every answered question is saved to a `search_history` table in Postgres (Supabase), associated with the user's UUID.
-- **Semantic cache**: Questions are embedded as 1,536-dimension vectors via OpenAI's `text-embedding-3-small`. When a new question arrives, the backend checks if a semantically similar question was answered recently — if yes, it returns the cached answer without calling Tavily or the LLM.
+- **Docker & DBs**: Setting up a PostgreSQL 17 database using `docker-compose`. We compare relational vs non-relational databases, and explore in-memory DBs like Redis for caching.
+- **Mental Model**: Understanding schemas, tables, and records through a Microsoft Excel analogy.
+- **Auth & ORMs**: Planning the request structure for register/login endpoints. We also introduce Object Relational Mapping (ORM) to replace raw SQL queries, setting the stage for defining a User schema and securing our `/ask` endpoint.
 
-The `main.py` grows from its current state to `v4.0.0` — the full production-ready pipeline.
+The `main.py` will soon grow to incorporate these persistent storage and authentication layers.
