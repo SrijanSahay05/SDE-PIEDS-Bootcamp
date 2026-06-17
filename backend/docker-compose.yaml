@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sde_bootcamp_user
+      POSTGRES_PASSWORD: sde_bootcamp_password
+      POSTGRES_DB: pieds_bootcamp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

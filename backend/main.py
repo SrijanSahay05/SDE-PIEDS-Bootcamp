@@ -28,6 +28,7 @@ async def lifespan(app: FastAPI):
     await app.state.http_client.aclose()
     await app.state.llm_client.close()
 
+
 app = FastAPI(title="FastAPI Dev", version="0.1.0", lifespan=lifespan)
 
 # Middlewares
